@@ -1,0 +1,20 @@
+# 농가 수 및 농가인구 변화
+plt.figure(figsize=(12, 6))
+plt.plot(agriculture_data.index, agriculture_data['Farm_Households'], label='Farm Households')
+plt.plot(agriculture_data.index, agriculture_data['Farm_Population'], label='Farm Population')
+plt.title('Changes in Farm Households and Population')
+plt.xlabel('Year')
+plt.ylabel('Number')
+plt.legend()
+plt.show()
+
+# 경지면적 변화
+plt.figure(figsize=(12, 6))
+plt.plot(agriculture_data.index, agriculture_data['Total_Cultivated_Area'], label='Total')
+plt.plot(agriculture_data.index, agriculture_data['Paddy_Field_Area'], label='Paddy Field')
+plt.plot(agriculture_data.index, agriculture_data['Upland_Area'], label='Upland')
+plt.title('Changes in Cultivated Area')
+plt.xlabel('Year')
+plt.ylabel('Area (ha)')
+plt.legend()
+plt.show()
