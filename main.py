@@ -7,6 +7,10 @@ def main():
 
     # 데이터 로드
     data = data_loader.load_and_preprocess_data()
+    
+    # 데이터 확인
+    st.write("데이터셋의 열:", data.columns.tolist())
+    st.write("데이터 샘플:", data.head())
 
     # 사이드바 메뉴
     analysis_option = st.sidebar.selectbox(
