@@ -3,29 +3,29 @@ import numpy as np
 
 def load_and_preprocess_data():
     # 데이터 로드
-    farm_households_population = pd.read_csv('data/farm_households_and_population_data.csv')
+    farm_households = pd.read_csv('data/farm_households_and_population_data.csv')
     climate_data = pd.read_csv('data/climate_data.csv')
     air_quality_data = pd.read_csv('data/air_quality_data.csv')
     crop_production_data = pd.read_csv('data/crop_production_data.csv')
     agriculture_data = pd.read_csv('data/agriculture_data.csv')
 
-    # 연도 컬럼 처리 함수
-    def process_year_column(df):
-        year_columns = ['Year', 'year', 'Date', 'date']
-        for col in year_columns:
-            if col in df.columns:
-                df['Year'] = pd.to_datetime(df[col]).dt.year
-                df.set_index('Year', inplace=True)
-                break
-        return df
+    # 연도 처리
+    farm_households['Year'] = pd.to_datetime(farm_households['Year'], format='%Y')
+    climate_data['Year'] = pd.to_datetime(climate_data['Year'], format='%Y')
+    air_quality_data['year'] = pd.to_datetime(air_quality_data['year'], format='%Y')
+    crop_production_data['year'] = pd.to_datetime(crop_production_data['year'], format='%Y')
+    agriculture_data['Year'] = pd.to_datetime(agriculture_data['Year'], format='%Y')
 
-    # 각 데이터프레임에 연도 처리 적용
-    dataframes = [farm_households_population, climate_data, air_quality_data, 
-                  crop_production_data, agriculture_data]
-    processed_dfs = [process_year_column(df) for df in dataframes]
+    # 인덱스 설정
+    farm_households.set_index('Year', inplace=True)
+    climate_data.set_index('Year', inplace=True)
+    air_quality_data.set_index('year', inplace=True)
+    crop_production_data.set_index('year', inplace=True)
+    agriculture_data.set_index('Year', inplace=True)
 
     # 데이터 병합
-    merged_data = pd.concat(processed_dfs, axis=1, join='outer')
+    merged_data = pd.concat([farm_households, climate_data, air_quality_data, 
+                             crop_production_data, agriculture_data], axis=1)
 
     # 결측치 처리
     merged_data = merged_data.fillna(method='ffill').fillna(method='bfill')
@@ -35,23 +35,20 @@ def load_and_preprocess_data():
 
     # 필요한 열 생성 또는 이름 변경
     column_mapping = {
-        'farm_households': 'farm_households',
-        'farm_population': 'farm_population',
-        'total_cultivated_area': 'total_cultivated_area',
-        'paddy_field_area': 'paddy_field_area',
-        'upland_area': 'upland_area',
-        'total_production': 'total_production'
+        'total': 'farm_households',
+        'total_x': 'total_cultivated_area',
+        'paddy_field': 'paddy_field_area',
+        'upland': 'upland_area',
+        'total_y': 'total_production'
     }
     merged_data.rename(columns=column_mapping, inplace=True)
 
-    # 농가 유형 비율 계산 (만약 해당 데이터가 있다면)
-    if 'full_time_farm' in merged_data.columns and 'part_time_farm' in merged_data.columns:
-        merged_data['full_time_ratio'] = merged_data['full_time_farm'] / merged_data['farm_households']
-        merged_data['part_time_ratio'] = merged_data['part_time_farm'] / merged_data['farm_households']
+    # 농가 유형 비율 계산
+    merged_data['full_time_ratio'] = merged_data['full-time'] / merged_data['farm_households']
+    merged_data['part_time_ratio'] = merged_data['part-time'] / merged_data['farm_households']
 
     # 농업 생산성 계산
-    if 'total_production' in merged_data.columns and 'total_cultivated_area' in merged_data.columns:
-        merged_data['productivity'] = merged_data['total_production'] / merged_data['total_cultivated_area']
+    merged_data['productivity'] = merged_data['total_production'] / merged_data['total_cultivated_area']
 
     print("Data loaded and preprocessed successfully.")
     print("Columns in the merged dataset:", merged_data.columns.tolist())
