@@ -23,7 +23,7 @@ def load_and_preprocess_data():
     farm_households_data = preprocess_data(farm_households_data)
 
     # 콤마 제거 및 숫자형으로 변환
-    for df in [agricultural_land_data, climate_data, crop_production_data, farm_households_data]:
+    for df in [agricultural_land_data, air_quality_data, climate_data, crop_production_data, farm_households_data]:
         for col in df.select_dtypes(include=['object']).columns:
             df[col] = df[col].str.replace(',', '').astype(float)
 
