@@ -7,7 +7,7 @@ def load_and_preprocess_data():
     farm_households_data = pd.read_csv('data/farm_households_data.csv')
     agriculture_data = pd.read_csv('data/agriculture_data.csv')
     crop_production_data = pd.read_csv('data/crop_production_data.csv')
-    air_quality_data = pd.read_csv('data/air_quality_data.txt')
+    air_quality_data = pd.read_csv('data/air_quality_data.csv')
 
     # 데이터 전처리
     def preprocess_data(df):
