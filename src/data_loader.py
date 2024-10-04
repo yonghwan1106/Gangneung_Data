@@ -3,7 +3,7 @@ import numpy as np
 
 def load_and_preprocess_data():
     # 데이터 로드
-    farm_households = pd.read_csv('data/farm_households_and_population_data.csv')
+    farm_households = pd.read_csv('data/farm_households.csv')
     climate_data = pd.read_csv('data/climate_data.csv')
     air_quality_data = pd.read_csv('data/air_quality_data.csv')
     crop_production_data = pd.read_csv('data/crop_production_data.csv')
