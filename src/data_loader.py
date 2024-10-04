@@ -3,11 +3,11 @@ import numpy as np
 
 def load_and_preprocess_data():
     # 데이터 로드
-    farm_households_data = pd.read_csv('data/farm_households_data.csv')
-    climate_data = pd.read_csv('data/climate_data.csv')
-    air_quality_data = pd.read_csv('data/air_quality_data.csv')
-    crop_production_data = pd.read_csv('data/crop_production_data.csv')
-    agricultural_land_data = pd.read_csv('data/agricultural_land_data.csv')
+    farm_households_data = pd.read_csv('data/farm_households_data.csv', encoding='utf-8')
+    climate_data = pd.read_csv('data/climate_data.csv', encoding='utf-8')
+    air_quality_data = pd.read_csv('data/air_quality_data.csv', encoding='utf-8')
+    crop_production_data = pd.read_csv('data/crop_production_data.csv', encoding='utf-8')
+    agricultural_land_data = pd.read_csv('data/agricultural_land_data.csv', encoding='utf-8')
 
     # 연도 처리
     farm_households_data['Year'] = pd.to_datetime(farm_households_data['Year'], format='%Y')
