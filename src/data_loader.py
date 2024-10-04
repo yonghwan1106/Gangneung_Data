@@ -9,16 +9,19 @@ def load_and_preprocess_data():
     crop_production_data = pd.read_csv('data/crop_production_data.csv', encoding='utf-8')
     agricultural_land_data = pd.read_csv('data/agricultural_land_data.csv', encoding='utf-8')
 
-    # 연도 처리
+    # 데이터 확인 및 열 이름 출력
+    print("Climate data columns:", climate_data.columns.tolist())
+    
+    # 연도 처리 (실제 열 이름에 맞게 수정)
     farm_households_data['Year'] = pd.to_datetime(farm_households_data['Year'].astype(str).str.strip(), format='%Y', errors='coerce')
-    climate_data['Year'] = pd.to_datetime(climate_data['Year'], format='%Y')
+    climate_data['Year'] = pd.to_datetime(climate_data.iloc[:, 0], format='%Y')  # 첫 번째 열을 Year로 가정
     air_quality_data['year'] = pd.to_datetime(air_quality_data['year'], format='%Y')
     crop_production_data['year'] = pd.to_datetime(crop_production_data['year'], format='%Y')
     agricultural_land_data['Year'] = pd.to_datetime(agricultural_land_data['Year'], format='%Y')
 
-    # 인덱스 설정
+    # 인덱스 설정 (실제 열 이름에 맞게 수정)
     farm_households_data.set_index('Year', inplace=True)
-    climate_data.set_index('Year', inplace=True)
+    climate_data.set_index(climate_data.columns[0], inplace=True)
     air_quality_data.set_index('year', inplace=True)
     crop_production_data.set_index('year', inplace=True)
     agricultural_land_data.set_index('Year', inplace=True)
