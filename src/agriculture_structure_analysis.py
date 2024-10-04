@@ -3,6 +3,9 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 
+def run_analysis(data):
+    analyze_agriculture_structure(data)
+    
 def analyze_agriculture_structure(merged_data):
     # 농가 수 및 농가인구 변화
     plt.figure(figsize=(12, 6))
