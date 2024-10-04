@@ -1,4 +1,7 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
 
 def analyze_agriculture_structure(merged_data):
     # 농가 수 및 농가인구 변화
@@ -9,7 +12,8 @@ def analyze_agriculture_structure(merged_data):
     plt.xlabel('Year')
     plt.ylabel('Number')
     plt.legend()
-    plt.show()
+    plt.savefig('results/farm_households_population.png')
+    plt.close()
 
     # 경지면적 변화
     plt.figure(figsize=(12, 6))
@@ -20,9 +24,32 @@ def analyze_agriculture_structure(merged_data):
     plt.xlabel('Year')
     plt.ylabel('Area (ha)')
     plt.legend()
-    plt.show()
+    plt.savefig('results/cultivated_area_changes.png')
+    plt.close()
 
-    # 여기에 추가적인 농업 구조 분석 코드를 넣을 수 있습니다.
-    # 예: 농가 유형 변화, 농업 생산성 변화 등
+    # 농가 유형 변화 (전업농 vs 겸업농)
+    merged_data['Full_time_ratio'] = merged_data['Full_time_farm'] / merged_data['Farm_Households']
+    merged_data['Part_time_ratio'] = merged_data['Part_time_farm'] / merged_data['Farm_Households']
+    
+    plt.figure(figsize=(12, 6))
+    plt.stackplot(merged_data.index, merged_data['Full_time_ratio'], merged_data['Part_time_ratio'], 
+                  labels=['Full-time', 'Part-time'])
+    plt.title('Changes in Farm Type Ratio')
+    plt.xlabel('Year')
+    plt.ylabel('Ratio')
+    plt.legend(loc='upper left')
+    plt.savefig('results/farm_type_ratio.png')
+    plt.close()
+
+    # 농업 생산성 변화
+    merged_data['Productivity'] = merged_data['Total_Production'] / merged_data['Total_Cultivated_Area']
+    
+    plt.figure(figsize=(12, 6))
+    plt.plot(merged_data.index, merged_data['Productivity'])
+    plt.title('Changes in Agricultural Productivity')
+    plt.xlabel('Year')
+    plt.ylabel('Production per hectare')
+    plt.savefig('results/agricultural_productivity.png')
+    plt.close()
 
     print("Agriculture structure analysis completed.")
