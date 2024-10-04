@@ -1,34 +1,49 @@
 import pandas as pd
 import numpy as np
+import os
+
+def safe_read_csv(file_path):
+    try:
+        return pd.read_csv(file_path, encoding='utf-8')
+    except UnicodeDecodeError:
+        return pd.read_csv(file_path, encoding='ISO-8859-1')
+    except Exception as e:
+        print(f"Error reading {file_path}: {e}")
+        return pd.DataFrame()
+
+def safe_to_datetime(series, format='%Y'):
+    try:
+        return pd.to_datetime(series, format=format, errors='coerce')
+    except Exception as e:
+        print(f"Error converting to datetime: {e}")
+        return pd.Series(dtype='datetime64[ns]')
 
 def load_and_preprocess_data():
-    # 데이터 로드
-    farm_households_data = pd.read_csv('data/farm_households_data.csv', encoding='utf-8')
-    climate_data = pd.read_csv('data/climate_data.csv', encoding='utf-8')
-    air_quality_data = pd.read_csv('data/air_quality_data.csv', encoding='utf-8')
-    crop_production_data = pd.read_csv('data/crop_production_data.csv', encoding='utf-8')
-    agricultural_land_data = pd.read_csv('data/agricultural_land_data.csv', encoding='utf-8')
-
-    # 데이터 확인 및 열 이름 출력
-    print("Climate data columns:", climate_data.columns.tolist())
+    data_dir = 'data'
+    data_files = {
+        'farm_households': 'farm_households_data.csv',
+        'climate': 'climate_data.csv',
+        'air_quality': 'air_quality_data.csv',
+        'crop_production': 'crop_production_data.csv',
+        'agricultural_land': 'agricultural_land_data.csv'
+    }
     
-    # 연도 처리 (실제 열 이름에 맞게 수정)
-    farm_households_data['Year'] = pd.to_datetime(farm_households_data['Year'].astype(str).str.strip(), format='%Y', errors='coerce')
-    climate_data['Year'] = pd.to_datetime(climate_data.iloc[:, 0], format='%Y')  # 첫 번째 열을 Year로 가정
-    air_quality_data['year'] = pd.to_datetime(air_quality_data['year'], format='%Y')
-    crop_production_data['year'] = pd.to_datetime(crop_production_data['year'], format='%Y')
-    agricultural_land_data['Year'] = pd.to_datetime(agricultural_land_data['Year'], format='%Y')
+    dataframes = {}
+    for key, filename in data_files.items():
+        file_path = os.path.join(data_dir, filename)
+        df = safe_read_csv(file_path)
+        if not df.empty:
+            print(f"{key} data columns:", df.columns.tolist())
+            dataframes[key] = df
 
-    # 인덱스 설정 (실제 열 이름에 맞게 수정)
-    farm_households_data.set_index('Year', inplace=True)
-    climate_data.set_index(climate_data.columns[0], inplace=True)
-    air_quality_data.set_index('year', inplace=True)
-    crop_production_data.set_index('year', inplace=True)
-    agricultural_land_data.set_index('Year', inplace=True)
+    # 연도 처리 및 인덱스 설정
+    for key, df in dataframes.items():
+        year_col = df.columns[0]  # 첫 번째 열을 연도 열로 가정
+        dataframes[key][year_col] = safe_to_datetime(df[year_col])
+        dataframes[key].set_index(year_col, inplace=True)
 
     # 데이터 병합
-    merged_data = pd.concat([farm_households_data, climate_data, air_quality_data, 
-                             crop_production_data, agricultural_land_data], axis=1)
+    merged_data = pd.concat(dataframes.values(), axis=1)
 
     # 결측치 처리
     merged_data = merged_data.fillna(method='ffill').fillna(method='bfill')
@@ -47,19 +62,20 @@ def load_and_preprocess_data():
     merged_data.rename(columns=column_mapping, inplace=True)
 
     # 농가 유형 비율 계산
-    merged_data['full_time_ratio'] = merged_data['full-time'] / merged_data['farm_households']
-    merged_data['part_time_ratio'] = merged_data['part-time'] / merged_data['farm_households']
+    if 'full-time' in merged_data.columns and 'farm_households' in merged_data.columns:
+        merged_data['full_time_ratio'] = merged_data['full-time'] / merged_data['farm_households']
+        merged_data['part_time_ratio'] = merged_data['part-time'] / merged_data['farm_households']
 
     # 농업 생산성 계산
-    merged_data['productivity'] = merged_data['total_production'] / merged_data['total_cultivated_area']
+    if 'total_production' in merged_data.columns and 'total_cultivated_area' in merged_data.columns:
+        merged_data['productivity'] = merged_data['total_production'] / merged_data['total_cultivated_area']
 
     print("Data loaded and preprocessed successfully.")
     print("Columns in the merged dataset:", merged_data.columns.tolist())
-
     return merged_data
 
 # 테스트 코드
 if __name__ == "__main__":
     data = load_and_preprocess_data()
-    print("Climate data first few rows:")
-    print(climate_data.head())
+    print(data.head())
+    print(data.shape)
