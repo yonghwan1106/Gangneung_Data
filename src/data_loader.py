@@ -41,6 +41,15 @@ def load_and_preprocess_data():
         year_col = df.columns[0]  # 첫 번째 열을 연도 열로 가정
         dataframes[key][year_col] = safe_to_datetime(df[year_col])
         dataframes[key].set_index(year_col, inplace=True)
+        print(f"{key} index:", dataframes[key].index.tolist())
+
+    # 공통 인덱스 찾기
+    common_index = pd.Index(set.intersection(*[set(df.index) for df in dataframes.values()]))
+    print("Common index:", common_index.tolist())
+
+    # 공통 인덱스로 데이터프레임 필터링
+    for key in dataframes:
+        dataframes[key] = dataframes[key].loc[common_index]
 
     # 데이터 병합
     merged_data = pd.concat(dataframes.values(), axis=1)
