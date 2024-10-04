@@ -10,7 +10,7 @@ def load_and_preprocess_data():
     agricultural_land_data = pd.read_csv('data/agricultural_land_data.csv', encoding='utf-8')
 
     # 연도 처리
-    farm_households_data['Year'] = pd.to_datetime(farm_households_data['Year'], format='%Y')
+    farm_households_data['Year'] = pd.to_datetime(farm_households_data['Year'].astype(str).str.strip(), format='%Y', errors='coerce')
     climate_data['Year'] = pd.to_datetime(climate_data['Year'], format='%Y')
     air_quality_data['year'] = pd.to_datetime(air_quality_data['year'], format='%Y')
     crop_production_data['year'] = pd.to_datetime(crop_production_data['year'], format='%Y')
