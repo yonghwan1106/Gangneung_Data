@@ -86,5 +86,8 @@ def load_and_preprocess_data():
 # 테스트 코드
 if __name__ == "__main__":
     data = load_and_preprocess_data()
+    print("Columns in the dataset:")
+    print(data.columns.tolist())
+    print("\nFirst few rows of the data:")
     print(data.head())
-    print(data.shape)
+    print("\nShape of the data:", data.shape)
