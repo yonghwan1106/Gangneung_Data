@@ -14,9 +14,15 @@ st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide"
 # 데이터 로드
 @st.cache_data
 def load_data():
-    return load_and_preprocess_data()
+    try:
+        return load_and_preprocess_data()
+    except Exception as e:
+        st.error(f"데이터 로딩 중 오류가 발생했습니다: {str(e)}")
+        return None
 
 data = load_data()
+if data is None:
+    st.stop()
 
 # 사이드바 - 분석 옵션 선택
 analysis_option = st.sidebar.selectbox(
