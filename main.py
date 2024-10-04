@@ -1,6 +1,7 @@
 import streamlit as st
 from src import data_loader, agriculture_structure_analysis, climate_analysis, \
                 correlation_regression_analysis, machine_learning_models, time_series_analysis
+import src.data_loader as data_loader
 
 st.title('강릉시 기후변화와 농업 구조 변화 분석')
 
