@@ -33,18 +33,24 @@ def load_and_preprocess_data():
         file_path = os.path.join(data_dir, filename)
         df = safe_read_csv(file_path)
         if not df.empty:
+            # 열 이름 표준화
+            df.columns = df.columns.str.strip().str.replace(' ', '_').str.lower()
+            
+            # 중복된 열 이름 처리
+            df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
+            
+            # 첫 번째 열을 연도로 가정하고 처리
+            year_col = df.columns[0]
+            df[year_col] = safe_to_datetime(df[year_col])
+            df.set_index(year_col, inplace=True)
+            
+            dataframes[key] = df
+            
             print(f"{key} data columns:", df.columns.tolist())
             print(f"{key} data types:", df.dtypes)
             print(f"{key} first few rows:")
             print(df.head())
             print("\n")
-            dataframes[key] = df
-
-    # 연도 처리 및 인덱스 설정
-    for key, df in dataframes.items():
-        year_col = df.columns[0]  # 첫 번째 열을 연도 열로 가정
-        dataframes[key][year_col] = safe_to_datetime(df[year_col])
-        dataframes[key].set_index(year_col, inplace=True)
 
     # 공통 인덱스 찾기
     common_index = pd.Index(set.intersection(*[set(df.index) for df in dataframes.values()]))
@@ -60,8 +66,8 @@ def load_and_preprocess_data():
     # 결측치 처리
     merged_data = merged_data.fillna(method='ffill').fillna(method='bfill')
 
-    # 열 이름 표준화
-    merged_data.columns = merged_data.columns.str.strip().str.replace(' ', '_').str.lower()
+    # 중복된 열 이름 다시 처리
+    merged_data.columns = pd.io.parsers.ParserBase({'names':merged_data.columns})._maybe_dedup_names(merged_data.columns)
 
     print("Final merged data columns:", merged_data.columns.tolist())
     print("Final merged data types:", merged_data.dtypes)
