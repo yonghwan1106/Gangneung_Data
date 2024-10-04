@@ -61,5 +61,5 @@ def load_and_preprocess_data():
 # 테스트 코드
 if __name__ == "__main__":
     data = load_and_preprocess_data()
-    print(data.head())
-    print(data.shape)
+    print("Climate data first few rows:")
+    print(climate_data.head())
