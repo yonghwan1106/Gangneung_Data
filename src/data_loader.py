@@ -4,7 +4,7 @@ import numpy as np
 def load_and_preprocess_data():
     # 데이터 로드
     climate_data = pd.read_csv('data/climate_data.csv')
-        print("Climate data columns:", climate_data.columns)
+    print("Climate data columns:", climate_data.columns)
     agriculture_data = pd.read_csv('data/agriculture_data.csv')
     crop_production_data = pd.read_csv('data/crop_production_data.csv')
     air_quality_data = pd.read_csv('data/air_quality_data.txt')
