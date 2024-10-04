@@ -8,6 +8,28 @@ def run_analysis(data):
     st.title("농업 구조 분석")
     analyze_agriculture_structure(data)
 
+def analyze_agriculture_structure(data):
+    st.write("데이터셋의 열:", data.columns.tolist())
+    
+    # 'Farm_Households' 열이 있는지 확인
+    if 'farm_households' in data.columns:
+        column_name = 'farm_households'
+    elif 'Farm_Households' in data.columns:
+        column_name = 'Farm_Households'
+    else:
+        st.error("농가 수 데이터를 찾을 수 없습니다.")
+        return
+
+    # 농가 수 변화
+    st.subheader("농가 수 변화")
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.plot(data.index, data[column_name], label='Farm Households')
+    ax.set_title('Changes in Farm Households')
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Number of Farm Households')
+    ax.legend()
+    st.pyplot(fig)
+
 def analyze_agriculture_structure(merged_data):
     # 농가 수 및 농가인구 변화
     st.subheader("농가 수 및 농가인구 변화")
