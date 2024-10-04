@@ -7,25 +7,25 @@ def load_and_preprocess_data():
     climate_data = pd.read_csv('data/climate_data.csv')
     air_quality_data = pd.read_csv('data/air_quality_data.csv')
     crop_production_data = pd.read_csv('data/crop_production_data.csv')
-    agriculture_data = pd.read_csv('data/agriculture_data.csv')
+    agricultural_land_data = pd.read_csv('data/agricultural_land_data.csv')
 
     # 연도 처리
     farm_households_data['Year'] = pd.to_datetime(farm_households_data['Year'], format='%Y')
     climate_data['Year'] = pd.to_datetime(climate_data['Year'], format='%Y')
     air_quality_data['year'] = pd.to_datetime(air_quality_data['year'], format='%Y')
     crop_production_data['year'] = pd.to_datetime(crop_production_data['year'], format='%Y')
-    agriculture_data['Year'] = pd.to_datetime(agriculture_data['Year'], format='%Y')
+    agricultural_land_data['Year'] = pd.to_datetime(agricultural_land_data['Year'], format='%Y')
 
     # 인덱스 설정
     farm_households_data.set_index('Year', inplace=True)
     climate_data.set_index('Year', inplace=True)
     air_quality_data.set_index('year', inplace=True)
     crop_production_data.set_index('year', inplace=True)
-    agriculture_data.set_index('Year', inplace=True)
+    agricultural_land_data.set_index('Year', inplace=True)
 
     # 데이터 병합
     merged_data = pd.concat([farm_households_data, climate_data, air_quality_data, 
-                             crop_production_data, agriculture_data], axis=1)
+                             crop_production_data, agricultural_land_data], axis=1)
 
     # 결측치 처리
     merged_data = merged_data.fillna(method='ffill').fillna(method='bfill')
