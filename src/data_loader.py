@@ -34,6 +34,10 @@ def load_and_preprocess_data():
         df = safe_read_csv(file_path)
         if not df.empty:
             print(f"{key} data columns:", df.columns.tolist())
+            print(f"{key} data types:", df.dtypes)
+            print(f"{key} first few rows:")
+            print(df.head())
+            print("\n")
             dataframes[key] = df
 
     # 연도 처리 및 인덱스 설정
@@ -41,7 +45,6 @@ def load_and_preprocess_data():
         year_col = df.columns[0]  # 첫 번째 열을 연도 열로 가정
         dataframes[key][year_col] = safe_to_datetime(df[year_col])
         dataframes[key].set_index(year_col, inplace=True)
-        print(f"{key} index:", dataframes[key].index.tolist())
 
     # 공통 인덱스 찾기
     common_index = pd.Index(set.intersection(*[set(df.index) for df in dataframes.values()]))
@@ -60,34 +63,14 @@ def load_and_preprocess_data():
     # 열 이름 표준화
     merged_data.columns = merged_data.columns.str.strip().str.replace(' ', '_').str.lower()
 
-    # 필요한 열 생성 또는 이름 변경
-    column_mapping = {
-        'total': 'farm_households',
-        'total_x': 'total_cultivated_area',
-        'paddy_field': 'paddy_field_area',
-        'upland': 'upland_area',
-        'total_y': 'total_production'
-    }
-    merged_data.rename(columns=column_mapping, inplace=True)
+    print("Final merged data columns:", merged_data.columns.tolist())
+    print("Final merged data types:", merged_data.dtypes)
+    print("Final merged data first few rows:")
+    print(merged_data.head())
 
-    # 농가 유형 비율 계산
-    if 'full-time' in merged_data.columns and 'farm_households' in merged_data.columns:
-        merged_data['full_time_ratio'] = merged_data['full-time'] / merged_data['farm_households']
-        merged_data['part_time_ratio'] = merged_data['part-time'] / merged_data['farm_households']
-
-    # 농업 생산성 계산
-    if 'total_production' in merged_data.columns and 'total_cultivated_area' in merged_data.columns:
-        merged_data['productivity'] = merged_data['total_production'] / merged_data['total_cultivated_area']
-
-    print("Data loaded and preprocessed successfully.")
-    print("Columns in the merged dataset:", merged_data.columns.tolist())
     return merged_data
 
 # 테스트 코드
 if __name__ == "__main__":
     data = load_and_preprocess_data()
-    print("Columns in the dataset:")
-    print(data.columns.tolist())
-    print("\nFirst few rows of the data:")
-    print(data.head())
-    print("\nShape of the data:", data.shape)
+    print(data.shape)
