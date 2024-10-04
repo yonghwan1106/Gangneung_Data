@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from data_loader import load_and_preprocess_data
-from climate_analysis import analyze_climate
-from agriculture_structure_analysis import analyze_agriculture_structure
-from correlation_regression_analysis import perform_correlation_regression_analysis
-from time_series_analysis import perform_time_series_analysis
-from machine_learning_models import apply_machine_learning_models
+from src.data_loader import load_and_preprocess_data
+from src.climate_analysis import analyze_climate
+from src.agriculture_structure_analysis import analyze_agriculture_structure
+from src.correlation_regression_analysis import perform_correlation_regression_analysis
+from src.time_series_analysis import perform_time_series_analysis
+from src.machine_learning_models import apply_machine_learning_models
 
 # 페이지 설정
 st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
