@@ -1,13 +1,17 @@
 import pandas as pd
 import numpy as np
 
+# 프로젝트 루트 디렉토리 경로 얻기
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 def load_and_preprocess_data():
     # 데이터 로드
-    agricultural_land_data = pd.read_csv('../data/agricultural_land_data.csv')
-    air_quality_data = pd.read_csv('../data/air_quality_data.csv')
-    climate_data = pd.read_csv('../data/climate_data.csv')
-    crop_production_data = pd.read_csv('../data/crop_production_data.csv')
-    farm_households_data = pd.read_csv('../data/farm_households_data.csv')
+    agricultural_land_data = pd.read_csv(os.path.join(project_root, 'data', 'agricultural_land_data.csv'))
+    air_quality_data = pd.read_csv(os.path.join(project_root, 'data', 'air_quality_data.csv'))
+    climate_data = pd.read_csv(os.path.join(project_root, 'data', 'climate_data.csv'))
+    crop_production_data = pd.read_csv(os.path.join(project_root, 'data', 'crop_production_data.csv'))
+    farm_households_data = pd.read_csv(os.path.join(project_root, 'data', 'farm_households_data.csv'))
+
 
     # 데이터 전처리
     def preprocess_data(df):
