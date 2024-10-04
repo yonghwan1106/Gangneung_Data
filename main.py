@@ -5,7 +5,8 @@ from src import data_loader, agriculture_structure_analysis, climate_analysis, \
 st.title('강릉시 기후변화와 농업 구조 변화 분석')
 
 # 데이터 로드
-data = data_loader.load_all_data()
+data = data_loader.load_and_preprocess_data()
+
 
 # 사이드바 메뉴
 analysis_option = st.sidebar.selectbox(
