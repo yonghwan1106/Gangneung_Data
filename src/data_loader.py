@@ -4,9 +4,10 @@ import numpy as np
 def load_and_preprocess_data():
     # 데이터 로드
     climate_data = pd.read_csv('data/climate_data.csv')
+    farm_households_data = pd.read_csv('data/farm_households_data.csv')
     agriculture_data = pd.read_csv('data/agriculture_data.csv')
     crop_production_data = pd.read_csv('data/crop_production_data.csv')
-    air_quality_data = pd.read_csv('data/air_quality_data.csv')
+    air_quality_data = pd.read_csv('data/air_quality_data.txt')
 
     # 데이터 전처리
     def preprocess_data(df):
@@ -18,6 +19,7 @@ def load_and_preprocess_data():
         return df
 
     climate_data = preprocess_data(climate_data)
+    farm_households_data = preprocess_data(farm_households_data)
     agriculture_data = preprocess_data(agriculture_data)
     crop_production_data = preprocess_data(crop_production_data)
     air_quality_data = preprocess_data(air_quality_data)
