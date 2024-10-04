@@ -18,6 +18,17 @@ def safe_to_datetime(series, format='%Y'):
         print(f"Error converting to datetime: {e}")
         return pd.Series(dtype='datetime64[ns]')
 
+def dedup_columns(columns):
+    seen = set()
+    for c in columns:
+        if c in seen:
+            i = 1
+            while f"{c}_{i}" in seen:
+                i += 1
+            c = f"{c}_{i}"
+        seen.add(c)
+        yield c
+
 def load_and_preprocess_data():
     data_dir = 'data'
     data_files = {
@@ -37,7 +48,7 @@ def load_and_preprocess_data():
             df.columns = df.columns.str.strip().str.replace(' ', '_').str.lower()
             
             # 중복된 열 이름 처리
-            df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
+            df.columns = list(dedup_columns(df.columns))
             
             # 첫 번째 열을 연도로 가정하고 처리
             year_col = df.columns[0]
@@ -67,7 +78,7 @@ def load_and_preprocess_data():
     merged_data = merged_data.fillna(method='ffill').fillna(method='bfill')
 
     # 중복된 열 이름 다시 처리
-    merged_data.columns = pd.io.parsers.ParserBase({'names':merged_data.columns})._maybe_dedup_names(merged_data.columns)
+    merged_data.columns = list(dedup_columns(merged_data.columns))
 
     print("Final merged data columns:", merged_data.columns.tolist())
     print("Final merged data types:", merged_data.dtypes)
