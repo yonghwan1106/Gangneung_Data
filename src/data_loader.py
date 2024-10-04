@@ -32,11 +32,10 @@ def dedup_columns(columns):
 def load_and_preprocess_data():
     data_dir = 'data'
     data_files = {
-        'farm_households': 'farm_households_data.csv',
-        'climate': 'climate_data.csv',
-        'air_quality': 'air_quality_data.csv',
-        'crop_production': 'crop_production_data.csv',
-        'agricultural_land': 'agricultural_land_data.csv'
+        'farm_households_agricultural_land': 'farm_households_agricultural_land_data.pdf',
+        'climate': 'climate_data.pdf',
+        'air_quality': 'air_quality_data.pdf',
+        'crop_production': 'crop_production_data.pdf',
     }
     
     dataframes = {}
