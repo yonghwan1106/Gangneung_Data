@@ -14,7 +14,7 @@ def analyze_agriculture_structure(data):
     # 농가 수 변화
     st.subheader("농가 수 변화")
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(data.index, data['Farmhouseholds '], label='Farm Households')
+    ax.plot(data.index, data['Farmhouseholds'], label='Farm Households')
     ax.set_title('Changes in Farm Households')
     ax.set_xlabel('Year')
     ax.set_ylabel('Number of Farm Households')
