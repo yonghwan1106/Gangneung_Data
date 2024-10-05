@@ -7,7 +7,7 @@ def load_and_preprocess_data():
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
     # 데이터 파일 경로
-    file_path = os.path.join(project_root, 'total_data.csv')
+    file_path = os.path.join(project_root, 'data', 'total_data.csv')
 
     try:
         # CSV 파일 읽기
