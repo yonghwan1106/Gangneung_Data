@@ -12,7 +12,7 @@ def run_analysis(merged_data):
 def perform_correlation_regression_analysis(merged_data):
     # 상관관계 분석
     st.subheader("상관관계 분석")
-    correlation_matrix = merged_data[['Temperature', 'Precipitation', 'Farm_Households', 'Total_Cultivated_Area', 'Rice_Production', 'Potato_Production']].corr()
+    correlation_matrix = merged_data[['temperature', 'precipitation', 'Farmhouseholds ', 'Total', 'RiceProduction', 'PotatoesProduction']].corr()
 
     fig, ax = plt.subplots(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', ax=ax)
@@ -21,8 +21,8 @@ def perform_correlation_regression_analysis(merged_data):
 
     # 다중회귀분석 (미곡생산량)
     st.subheader("다중회귀분석 (미곡생산량)")
-    X = merged_data[['Precipitation', 'Temperature', 'Farm_Households', 'Total_Cultivated_Area']]
-    y = merged_data['Rice_Production']
+    X = merged_data[['precipitation', 'temperature', 'Farmhouseholds ', 'Total']]
+    y = merged_data['RiceProduction']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -39,8 +39,8 @@ def perform_correlation_regression_analysis(merged_data):
 
     # 단순회귀분석 (서류생산량)
     st.subheader("단순회귀분석 (서류생산량)")
-    X = merged_data[['Precipitation']]
-    y = merged_data['Potato_Production']
+    X = merged_data[['precipitation']]
+    y = merged_data['PotatoesProduction']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
