@@ -21,7 +21,7 @@ def perform_correlation_regression_analysis(merged_data):
 
     # 다중회귀분석 (미곡생산량)
     st.subheader("다중회귀분석 (미곡생산량)")
-    X = merged_data[['precipitation', 'temperature', 'Farmhouseholds ', 'Total']]
+    X = merged_data[['precipitation', 'temperature', 'Farmhouseholds', 'PaddyField+Upland']]
     y = merged_data['RiceProduction']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
