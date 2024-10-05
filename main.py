@@ -45,8 +45,8 @@ elif analysis_option == "Agricultural Structure Change":
 elif analysis_option == "Crop Production Change":
     st.write("## Crop Production Change")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['Rice Production'], label='RiceProduction')
-    ax.plot(data.index, data['Potatoes Production'], label='PotatoProduction')
+    ax.plot(data.index, data['RiceProduction'], label='Rice Production')
+    ax.plot(data.index, data['PotatoesProduction'], label='Potato Production')
     ax.set_xlabel('Year')
     ax.set_ylabel('Production (ton)')
     ax.legend()
