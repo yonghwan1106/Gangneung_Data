@@ -24,7 +24,7 @@ def analyze_agriculture_structure(data):
     # 경지면적 변화
     st.subheader("경지면적 변화")
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(data.index, data['Total'], label='Total')
+    ax.plot(data.index, data['PaddyField+Upland'], label='Total')
     ax.plot(data.index, data['PaddyField'], label='Paddy Field')
     ax.plot(data.index, data['Upland'], label='Upland')
     ax.set_title('Changes in Cultivated Area')
