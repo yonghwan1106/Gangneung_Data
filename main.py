@@ -1,16 +1,16 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from src.data_loader import load_and_preprocess_data
-import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
+from src.data_loader import load_and_preprocess_data
+
+# 페이지 설정
+st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 한글 폰트 설정
 plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
-
-# 페이지 설정
-st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
 
 # 데이터 로드
 @st.cache_data
@@ -41,7 +41,7 @@ if analysis_option == "데이터 개요":
 elif analysis_option == "농업 구조 변화":
     st.write("## 농업 구조 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['Farmhouseholds '], label='농가 수')
+    ax.plot(data.index, data['Farm households '], label='농가 수')
     ax.plot(data.index, data['Total'], label='총 경지면적')
     ax.set_xlabel('연도')
     ax.set_ylabel('값')
@@ -51,8 +51,8 @@ elif analysis_option == "농업 구조 변화":
 elif analysis_option == "작물 생산량 변화":
     st.write("## 작물 생산량 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['RiceProduction'], label='쌀 생산량')
-    ax.plot(data.index, data['PotatoesProduction'], label='감자 생산량')
+    ax.plot(data.index, data['Rice Production'], label='쌀 생산량')
+    ax.plot(data.index, data['Potatoes Production'], label='감자 생산량')
     ax.set_xlabel('연도')
     ax.set_ylabel('생산량 (톤)')
     ax.legend()
@@ -67,7 +67,9 @@ elif analysis_option == "기후 변화":
     ax1.set_xlabel('연도')
     ax1.set_ylabel('평균 기온 (°C)', color='red')
     ax2.set_ylabel('강수량 (mm)', color='blue')
-    fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax1.transAxes)
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
     st.pyplot(fig)
 
 elif analysis_option == "대기질 변화":
@@ -83,3 +85,9 @@ elif analysis_option == "대기질 변화":
 # 푸터
 st.sidebar.markdown("---")
 st.sidebar.write("© 2024 강릉시 데이터 분석 공모전")
+
+# 한글 폰트 확인 (선택적)
+if st.sidebar.checkbox("사용 가능한 한글 폰트 확인"):
+    font_list = [f.name for f in fm.fontManager.ttflist if 'Gothic' in f.name or 'Batang' in f.name or 'Gulim' in f.name]
+    st.sidebar.write("사용 가능한 한글 폰트:")
+    st.sidebar.write(font_list)
