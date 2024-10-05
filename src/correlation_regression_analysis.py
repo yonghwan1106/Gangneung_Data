@@ -12,7 +12,7 @@ def run_analysis(merged_data):
 def perform_correlation_regression_analysis(merged_data):
     # 상관관계 분석
     st.subheader("상관관계 분석")
-    correlation_matrix = merged_data[['temperature', 'precipitation', 'Farmhouseholds ', 'Total', 'RiceProduction', 'PotatoesProduction']].corr()
+    correlation_matrix = merged_data[['temperature', 'precipitation', 'Farmhouseholds', 'PaddyField+Upland', 'RiceProduction', 'PotatoesProduction']].corr()
 
     fig, ax = plt.subplots(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', ax=ax)
