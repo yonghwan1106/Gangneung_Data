@@ -20,7 +20,7 @@ data = load_data()
 # 사이드바 - 분석 옵션 선택
 analysis_option = st.sidebar.selectbox(
     "분석 옵션을 선택하세요",
-    ("데이터 개요", "기후 변화 분석", "농업 구조 변화 분석", "작물 생산량 분석", "대기질 분석")
+    ("데이터 개요", "농업 구조 변화", "작물 생산량 변화", "기후 변화", "대기질 변화")
 )
 
 # 메인 페이지 제목
@@ -30,20 +30,10 @@ if analysis_option == "데이터 개요":
     st.write("## 데이터 개요")
     st.write(data.describe())
     st.write("### 데이터 샘플")
-    st.write(data.head())
+    st.write(data)
 
-elif analysis_option == "기후 변화 분석":
-    st.write("## 기후 변화 분석")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['temperature'], label='평균 기온')
-    ax.plot(data.index, data['precipitation'], label='강수량')
-    ax.set_xlabel('연도')
-    ax.set_ylabel('값')
-    ax.legend()
-    st.pyplot(fig)
-
-elif analysis_option == "농업 구조 변화 분석":
-    st.write("## 농업 구조 변화 분석")
+elif analysis_option == "농업 구조 변화":
+    st.write("## 농업 구조 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(data.index, data['Farm households '], label='농가 수')
     ax.plot(data.index, data['Total'], label='총 경지면적')
@@ -52,8 +42,8 @@ elif analysis_option == "농업 구조 변화 분석":
     ax.legend()
     st.pyplot(fig)
 
-elif analysis_option == "작물 생산량 분석":
-    st.write("## 작물 생산량 분석")
+elif analysis_option == "작물 생산량 변화":
+    st.write("## 작물 생산량 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(data.index, data['Rice Production'], label='쌀 생산량')
     ax.plot(data.index, data['Potatoes Production'], label='감자 생산량')
@@ -62,8 +52,20 @@ elif analysis_option == "작물 생산량 분석":
     ax.legend()
     st.pyplot(fig)
 
-elif analysis_option == "대기질 분석":
-    st.write("## 대기질 분석")
+elif analysis_option == "기후 변화":
+    st.write("## 기후 변화")
+    fig, ax1 = plt.subplots(figsize=(10, 6))
+    ax2 = ax1.twinx()
+    ax1.plot(data.index, data['temperature'], color='red', label='평균 기온')
+    ax2.bar(data.index, data['precipitation'], alpha=0.3, color='blue', label='강수량')
+    ax1.set_xlabel('연도')
+    ax1.set_ylabel('평균 기온 (°C)', color='red')
+    ax2.set_ylabel('강수량 (mm)', color='blue')
+    fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax1.transAxes)
+    st.pyplot(fig)
+
+elif analysis_option == "대기질 변화":
+    st.write("## 대기질 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(data.index, data['PM10'], label='PM10')
     ax.plot(data.index, data['PM2.5'], label='PM2.5')
