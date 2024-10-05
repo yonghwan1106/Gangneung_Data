@@ -6,7 +6,6 @@ from src.data_loader import load_and_preprocess_data
 
 # 페이지 설정
 st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
-st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 한글 폰트 설정
 plt.rcParams['font.family'] = 'NanumGothic'
@@ -52,42 +51,4 @@ elif analysis_option == "작물 생산량 변화":
     st.write("## 작물 생산량 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(data.index, data['Rice Production'], label='쌀 생산량')
-    ax.plot(data.index, data['Potatoes Production'], label='감자 생산량')
-    ax.set_xlabel('연도')
-    ax.set_ylabel('생산량 (톤)')
-    ax.legend()
-    st.pyplot(fig)
-
-elif analysis_option == "기후 변화":
-    st.write("## 기후 변화")
-    fig, ax1 = plt.subplots(figsize=(10, 6))
-    ax2 = ax1.twinx()
-    ax1.plot(data.index, data['temperature'], color='red', label='평균 기온')
-    ax2.bar(data.index, data['precipitation'], alpha=0.3, color='blue', label='강수량')
-    ax1.set_xlabel('연도')
-    ax1.set_ylabel('평균 기온 (°C)', color='red')
-    ax2.set_ylabel('강수량 (mm)', color='blue')
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
-    st.pyplot(fig)
-
-elif analysis_option == "대기질 변화":
-    st.write("## 대기질 변화")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['PM10'], label='PM10')
-    ax.plot(data.index, data['PM2.5'], label='PM2.5')
-    ax.set_xlabel('연도')
-    ax.set_ylabel('농도 (μg/m³)')
-    ax.legend()
-    st.pyplot(fig)
-
-# 푸터
-st.sidebar.markdown("---")
-st.sidebar.write("© 2024 강릉시 데이터 분석 공모전")
-
-# 한글 폰트 확인 (선택적)
-if st.sidebar.checkbox("사용 가능한 한글 폰트 확인"):
-    font_list = [f.name for f in fm.fontManager.ttflist if 'Gothic' in f.name or 'Batang' in f.name or 'Gulim' in f.name]
-    st.sidebar.write("사용 가능한 한글 폰트:")
-    st.sidebar.write(font_list)
+    ax.plot(data.index, data[
