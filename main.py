@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from src.data_loader import load_and_preprocess_data
 from src.time_series_analysis import run_analysis as run_time_series_analysis
 from src.machine_learning_models import run_analysis as run_ml_models_analysis
@@ -45,48 +46,42 @@ if analysis_option == "기본 분석":
 
     # 농업 구조 변화 그래프
     st.subheader("농업 구조 변화")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['Farmhouseholds'], label='Number of Farm Households')
-    ax.plot(data.index, data['PaddyField+Upland'], label='Total Cultivated Area')
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Value')
-    ax.legend()
-    st.pyplot(fig)
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(x=data.index, y=data['Farmhouseholds'], name="농가 수"), secondary_y=False)
+    fig.add_trace(go.Scatter(x=data.index, y=data['PaddyField+Upland'], name="총 경지면적"), secondary_y=True)
+    fig.update_layout(title_text="농가 수 및 총 경지면적 변화")
+    fig.update_xaxes(title_text="연도")
+    fig.update_yaxes(title_text="농가 수", secondary_y=False)
+    fig.update_yaxes(title_text="총 경지면적 (ha)", secondary_y=True)
+    st.plotly_chart(fig)
 
     # 작물 생산량 변화 그래프
     st.subheader("작물 생산량 변화")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['RiceProduction'], label='Rice Production')
-    ax.plot(data.index, data['PotatoesProduction'], label='Potato Production')
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Production (ton)')
-    ax.legend()
-    st.pyplot(fig)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data.index, y=data['RiceProduction'], name="쌀 생산량"))
+    fig.add_trace(go.Scatter(x=data.index, y=data['PotatoesProduction'], name="감자 생산량"))
+    fig.update_layout(title_text="작물 생산량 변화", xaxis_title="연도", yaxis_title="생산량 (ton)")
+    st.plotly_chart(fig)
 
     # 온도와 강수량 그래프
     st.subheader("기후 변화")
-    fig, ax1 = plt.subplots(figsize=(10, 6))
-    ax2 = ax1.twinx()
-    ax1.plot(data.index, data['temperature'], color='red', label='Temperature')
-    ax2.bar(data.index, data['precipitation'], alpha=0.3, color='blue', label='Precipitation')
-    ax1.set_xlabel('Year')
-    ax1.set_ylabel('Temperature (°C)', color='red')
-    ax2.set_ylabel('Precipitation (mm)', color='blue')
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
-    st.pyplot(fig)
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(x=data.index, y=data['temperature'], name="평균 기온"), secondary_y=False)
+    fig.add_trace(go.Bar(x=data.index, y=data['precipitation'], name="강수량"), secondary_y=True)
+    fig.update_layout(title_text="기온 및 강수량 변화")
+    fig.update_xaxes(title_text="연도")
+    fig.update_yaxes(title_text="평균 기온 (°C)", secondary_y=False)
+    fig.update_yaxes(title_text="강수량 (mm)", secondary_y=True)
+    st.plotly_chart(fig)
 
     # 대기질 데이터 그래프
     st.subheader("대기질 변화")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['PM10'], label='PM10')
-    ax.plot(data.index, data['PM2.5'], label='PM2.5')
-    ax.plot(data.index, data['O3'], label='O3')
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Concentration')
-    ax.legend()
-    st.pyplot(fig)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data.index, y=data['PM10'], name="PM10"))
+    fig.add_trace(go.Scatter(x=data.index, y=data['PM2.5'], name="PM2.5"))
+    fig.add_trace(go.Scatter(x=data.index, y=data['O3'], name="O3"))
+    fig.update_layout(title_text="대기질 변화", xaxis_title="연도", yaxis_title="농도")
+    st.plotly_chart(fig)
 
 elif analysis_option == "시계열 분석":
     run_time_series_analysis(data)
