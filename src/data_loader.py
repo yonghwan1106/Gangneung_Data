@@ -4,8 +4,14 @@ import numpy as np
 import streamlit as st
 
 def load_and_preprocess_data():
-    # 프로젝트 루트 디렉토리 경로 얻기
-    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # 가능한 데이터 디렉토리 경로들
+    possible_data_dirs = [
+        os.path.join(os.getcwd(), 'data'),
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data'),
+        '/mount/src/gangneung-agriculture-climate-analysis',
+        '/mount/src/gangneung-agriculture-climate-analysis/data'
+    ]
     
     # 데이터 파일 정의
     data_files = {
@@ -20,12 +26,20 @@ def load_and_preprocess_data():
 
     # 데이터 로드
     for key, filename in data_files.items():
-        file_path = os.path.join(project_root, filename)
-        try:
-            df = pd.read_csv(file_path)
-            dataframes[key] = df
-        except Exception as e:
-            st.error(f"Error loading {filename}: {str(e)}")
+        file_found = False
+        for data_dir in possible_data_dirs:
+            file_path = os.path.join(data_dir, filename)
+            if os.path.exists(file_path):
+                try:
+                    df = pd.read_csv(file_path)
+                    dataframes[key] = df
+                    file_found = True
+                    st.success(f"Successfully loaded {filename}")
+                    break
+                except Exception as e:
+                    st.error(f"Error loading {filename}: {str(e)}")
+        if not file_found:
+            st.error(f"Could not find {filename} in any of the expected locations")
             return None
 
     # 데이터 전처리
