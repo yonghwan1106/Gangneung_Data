@@ -18,9 +18,13 @@ def load_data():
     if data is None:
         st.error("데이터 로딩에 실패했습니다. 프로그램을 종료합니다.")
         st.stop()
+        
+    # Year 열을 연도만 표시하도록 변경
+    data.index = data.index.strftime('%Y')
     return data
 
 data = load_data()
+
 
 # 사이드바 - 상세 분석 메뉴
 st.sidebar.title("상세 분석")
