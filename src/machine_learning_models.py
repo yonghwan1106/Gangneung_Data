@@ -10,8 +10,8 @@ def run_analysis(merged_data):
     apply_machine_learning_models(merged_data)
 
 def apply_machine_learning_models(merged_data):
-    X = merged_data[['Year', 'Temperature', 'Precipitation', 'Farm_Households', 'Total_Cultivated_Area']]
-    y = merged_data['Rice_Production']
+    X = merged_data[['temperature', 'precipitation', 'Farmhouseholds ', 'Total']]
+    y = merged_data['RiceProduction']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
