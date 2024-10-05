@@ -66,17 +66,6 @@ if analysis_option == "기본 분석":
     # 온도와 강수량 그래프
     st.subheader("기후 변화")
     fig = make_subplots(specs=[[{"secondary_y": True}]])
-    fig.add_trace(go.Scatter(x=data.index, y=data['temperature'], name="평균 기온"), secondary_y=False)
-    fig.add_trace(go.Bar(x=data.index, y=data['precipitation'], name="강수량"), secondary_y=True)
-    fig.update_layout(title_text="온도 및 강수량 변화")
-    fig.update_xaxes(title_text="연도")
-    fig.update_yaxes(title_text="평균 기온 (°C)", secondary_y=False)
-    fig.update_yaxes(title_text="강수량 (mm)", secondary_y=True)
-    st.plotly_chart(fig)
-
-    # 온도와 강수량 그래프
-    st.subheader("기후 변화")
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
     
     # 강수량을 먼저 추가하고 투명도 설정
     fig.add_trace(go.Bar(x=data.index, y=data['precipitation'], name="강수량", opacity=0.5), secondary_y=True)
