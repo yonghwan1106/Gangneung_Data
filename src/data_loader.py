@@ -18,7 +18,7 @@ def load_and_preprocess_data():
         df.set_index('Year', inplace=True)
         
         # 쉼표가 포함된 숫자 열 처리
-        numeric_columns = ['Total', 'Paddy Field', 'Upland', 'Farmhouseholds ', 'Farmpopulation', 
+        numeric_columns = ['Total', 'PaddyField', 'Upland', 'Farmhouseholds ', 'Farmpopulation', 
                            'RiceProduction', 'PotatoesProduction', 'precipitation']
         for col in numeric_columns:
             df[col] = df[col].str.replace(',', '').astype(float)
