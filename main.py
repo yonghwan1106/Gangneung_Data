@@ -40,7 +40,7 @@ if analysis_option == "데이터 개요":
 elif analysis_option == "농업 구조 변화":
     st.write("## 농업 구조 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['Farm households '], label='농가 수')
+    ax.plot(data.index, data['Farmhouseholds '], label='농가 수')
     ax.plot(data.index, data['Total'], label='총 경지면적')
     ax.set_xlabel('연도')
     ax.set_ylabel('값')
@@ -50,8 +50,8 @@ elif analysis_option == "농업 구조 변화":
 elif analysis_option == "작물 생산량 변화":
     st.write("## 작물 생산량 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['Rice Production'], label='쌀 생산량')
-    ax.plot(data.index, data['Potatoes Production'], label='감자 생산량')
+    ax.plot(data.index, data['RiceProduction'], label='쌀 생산량')
+    ax.plot(data.index, data['PotatoesProduction'], label='감자 생산량')
     ax.set_xlabel('연도')
     ax.set_ylabel('생산량 (톤)')
     ax.legend()
