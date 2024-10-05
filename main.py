@@ -2,11 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from src.data_loader import load_and_preprocess_data
-from src.climate_analysis import analyze_climate
-from src.agriculture_structure_analysis import analyze_agriculture_structure
-from src.correlation_regression_analysis import perform_correlation_regression_analysis
-from src.time_series_analysis import perform_time_series_analysis
-from src.machine_learning_models import apply_machine_learning_models
 
 # 페이지 설정
 st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
@@ -25,7 +20,7 @@ data = load_data()
 # 사이드바 - 분석 옵션 선택
 analysis_option = st.sidebar.selectbox(
     "분석 옵션을 선택하세요",
-    ("데이터 개요", "기후 변화 분석", "농업 구조 변화 분석", "상관관계 및 회귀분석", "시계열 분석", "머신러닝 모델")
+    ("데이터 개요", "기후 변화 분석", "농업 구조 변화 분석", "작물 생산량 분석", "대기질 분석")
 )
 
 # 메인 페이지 제목
@@ -39,28 +34,43 @@ if analysis_option == "데이터 개요":
 
 elif analysis_option == "기후 변화 분석":
     st.write("## 기후 변화 분석")
-    fig = analyze_climate(data)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(data.index, data['temperature'], label='평균 기온')
+    ax.plot(data.index, data['precipitation'], label='강수량')
+    ax.set_xlabel('연도')
+    ax.set_ylabel('값')
+    ax.legend()
     st.pyplot(fig)
 
 elif analysis_option == "농업 구조 변화 분석":
     st.write("## 농업 구조 변화 분석")
-    fig = analyze_agriculture_structure(data)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(data.index, data['Farm households '], label='농가 수')
+    ax.plot(data.index, data['Total'], label='총 경지면적')
+    ax.set_xlabel('연도')
+    ax.set_ylabel('값')
+    ax.legend()
     st.pyplot(fig)
 
-elif analysis_option == "상관관계 및 회귀분석":
-    st.write("## 상관관계 및 회귀분석")
-    results = perform_correlation_regression_analysis(data)
-    st.write(results)
-
-elif analysis_option == "시계열 분석":
-    st.write("## 시계열 분석")
-    fig = perform_time_series_analysis(data)
+elif analysis_option == "작물 생산량 분석":
+    st.write("## 작물 생산량 분석")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(data.index, data['Rice Production'], label='쌀 생산량')
+    ax.plot(data.index, data['Potatoes Production'], label='감자 생산량')
+    ax.set_xlabel('연도')
+    ax.set_ylabel('생산량 (톤)')
+    ax.legend()
     st.pyplot(fig)
 
-elif analysis_option == "머신러닝 모델":
-    st.write("## 머신러닝 모델")
-    results = apply_machine_learning_models(data)
-    st.write(results)
+elif analysis_option == "대기질 분석":
+    st.write("## 대기질 분석")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(data.index, data['PM10'], label='PM10')
+    ax.plot(data.index, data['PM2.5'], label='PM2.5')
+    ax.set_xlabel('연도')
+    ax.set_ylabel('농도 (μg/m³)')
+    ax.legend()
+    st.pyplot(fig)
 
 # 푸터
 st.sidebar.markdown("---")
