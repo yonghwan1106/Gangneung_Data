@@ -9,3 +9,4 @@ scipy
 jupyter
 openpyxl
 tabula-py
+plotly
