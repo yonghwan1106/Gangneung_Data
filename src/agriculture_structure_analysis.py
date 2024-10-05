@@ -46,7 +46,7 @@ def analyze_agriculture_structure(data):
 
     # 농업 생산성 변화
     st.subheader("농업 생산성 변화")
-    data['productivity'] = (data['RiceProduction'] + data['PotatoesProduction']) / data['Total']
+    data['productivity'] = (data['RiceProduction'] + data['PotatoesProduction']) / data['PaddyField+Upland']
     fig, ax = plt.subplots(figsize=(12, 6))
     ax.plot(data.index, data['productivity'])
     ax.set_title('Changes in Agricultural Productivity')
