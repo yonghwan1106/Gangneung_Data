@@ -9,7 +9,7 @@ def run_analysis(data):
     analyze_agriculture_structure(data)
 
 def analyze_agriculture_structure(data):
-    st.write("데이터셋의 열:", data.columns.tolist())
+    # st.write("데이터셋의 열:", data.columns.tolist())
     
     # 농가 수 변화
     st.subheader("농가 수 변화")
