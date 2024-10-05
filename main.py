@@ -36,14 +36,14 @@ if analysis_option == "기본 분석":
     # 기본 분석 섹션
     st.header("기본 데이터 분석")
 
+    # 원본 데이터 표시
+    st.subheader("원본 데이터")
+    st.write(data)
+    
     # 데이터 개요
     st.subheader("데이터 개요")
     st.write(data.describe())
     
-    # 원본 데이터 표시
-    st.subheader("원본 데이터")
-    st.write(data)
-
     # 농업 구조 변화 그래프
     st.subheader("농업 구조 변화")
     fig = make_subplots(specs=[[{"secondary_y": True}]])
