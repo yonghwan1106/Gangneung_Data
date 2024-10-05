@@ -46,10 +46,10 @@ def load_and_preprocess_data():
     for key, df in dataframes.items():
         # Year 컬럼을 인덱스로 설정
         if 'Year' in df.columns:
-            df['Year'] = pd.to_datetime(df['Year'].astype(str), format='%Y')
+            df['Year'] = df['Year'].astype(str).str.extract('(\d{4})').astype(int)
             df.set_index('Year', inplace=True)
         elif 'year' in df.columns:
-            df['year'] = pd.to_datetime(df['year'].astype(str), format='%Y')
+            df['year'] = df['year'].astype(str).str.extract('(\d{4})').astype(int)
             df.set_index('year', inplace=True)
 
         # 쉼표 제거 및 숫자형으로 변환
@@ -61,6 +61,9 @@ def load_and_preprocess_data():
 
     # 중복 열 제거
     merged_data = merged_data.loc[:, ~merged_data.columns.duplicated()]
+
+    # 인덱스를 datetime으로 변환
+    merged_data.index = pd.to_datetime(merged_data.index, format='%Y')
 
     return merged_data
 
