@@ -25,6 +25,11 @@ def load_data():
 
 data = load_data()
 
+# 데이터 표시 시
+st.write(data.set_index('Year_Display'))
+
+# 분석에는 원본 datetime 인덱스 사용
+run_time_series_analysis(data)
 
 # 사이드바 - 상세 분석 메뉴
 st.sidebar.title("상세 분석")
