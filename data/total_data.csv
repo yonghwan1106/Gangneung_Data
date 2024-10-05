@@ -1,4 +1,4 @@
-﻿Year,Total,Paddy Field,Upland,landPerFarm,Farmhouseholds , Farmpopulation,fullTime,partTime,RiceProduction,PotatoesProduction,PM10,PM2.5,O3,temperature,precipitation
+﻿Year,Total,Paddy Field,Upland,landPerFarm,Farmhouseholds ,Farmpopulation,fullTime,partTime,RiceProduction,PotatoesProduction,PM10,PM2.5,O3,temperature,precipitation
 2016,"7,513","2,747","4,766",105.7,"7,106","17,192",44.4,55.6,"12,802","29,342",47,27,0.03,13.1,"1,204.20"
 2017,"7,310","2,571","4,739",117.6,"6,217","14,407",45,55,"10,814","27,763",44,25,0.034,13.9,"1,081.90"
 2018,"7,207","2,405","4,801",119.8,"6,012","13,464",40.1,59.9,"10,688","27,808",36,19.5,0.034,12.7,"1,548.10"
