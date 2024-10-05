@@ -46,8 +46,8 @@ if analysis_option == "기본 분석":
     # 농업 구조 변화 그래프
     st.subheader("농업 구조 변화")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data.index, data['Farmhouseholds '], label='Number of Farm Households')
-    ax.plot(data.index, data['PaddyField+Uplandl'], label='Total Cultivated Area')
+    ax.plot(data.index, data['Farmhouseholds'], label='Number of Farm Households')
+    ax.plot(data.index, data['PaddyField+Upland'], label='Total Cultivated Area')
     ax.set_xlabel('Year')
     ax.set_ylabel('Value')
     ax.legend()
