@@ -7,6 +7,18 @@ def display_advanced_analysis(data):
 
 
 
+
+    # 5.1 강릉시 농업-기후 모니터링 대시보드
+    st.subheader("5.1 강릉시 농업-기후 모니터링 대시보드")
+    fig = make_subplots(rows=2, cols=2)
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['temperature'], name="평균 기온"), row=1, col=1)
+    fig.add_trace(go.Bar(x=data['Year_Display'], y=data['precipitation'], name="강수량"), row=1, col=2)
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['RiceProduction'], name="미곡 생산량"), row=2, col=1)
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['PotatoesProduction'], name="서류 생산량"), row=2, col=2)
+    fig.update_layout(height=600, width=800, title_text="강릉시 농업-기후 모니터링 대시보드")
+    st.plotly_chart(fig)
+
+    
     # 5.2 강릉시 농업 회복력 평가 매트릭스(ARAM) 레이더 차트
     st.subheader("5.2 강릉시 농업 회복력 평가 매트릭스(ARAM) 레이더 차트")
     categories = ['작물 다양성', '관개 시스템 효율성', '농가 경제력', '기술 적용도', '정책 지원 수준']
@@ -24,17 +36,7 @@ def display_advanced_analysis(data):
       showlegend=False
     )
     st.plotly_chart(fig)
-
-    # 5.3 강릉시 농업-기후 모니터링 대시보드
-    st.subheader("5.3 강릉시 농업-기후 모니터링 대시보드")
-    fig = make_subplots(rows=2, cols=2)
-    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['temperature'], name="평균 기온"), row=1, col=1)
-    fig.add_trace(go.Bar(x=data['Year_Display'], y=data['precipitation'], name="강수량"), row=1, col=2)
-    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['RiceProduction'], name="미곡 생산량"), row=2, col=1)
-    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['PotatoesProduction'], name="서류 생산량"), row=2, col=2)
-    fig.update_layout(height=600, width=800, title_text="강릉시 농업-기후 모니터링 대시보드")
-    st.plotly_chart(fig)
-
+    
     # 5.4 농가 협동 체계 구축 단계별 접근
     st.subheader("5.4 농가 협동 체계 구축 단계별 접근")
     stages = ['1년차', '2년차', '3년차', '4년차', '5년차']
