@@ -29,7 +29,7 @@ data = load_data()
 st.sidebar.title("상세 분석")
 analysis_option = st.sidebar.radio(
     "분석 옵션을 선택하세요",
-    ("기본 분석", "기본분석2", "탐색적 데이터 분석", "머신러닝 모델", "상관 및 회귀 분석")
+    ("기본 분석", "탐색적 데이터 분석", "머신러닝 모델", "상관 및 회귀 분석")
 )
 
 # 메인 페이지 제목
@@ -82,17 +82,16 @@ if analysis_option == "기본 분석":
     fig.update_layout(title_text="대기질 변화", xaxis_title="연도", yaxis_title="농도")
     st.plotly_chart(fig)
 
-elif analysis_option == "기본 분석2":
-    display_basic_analysis_2(data)
 
 elif analysis_option == "탐색적 데이터 분석":
     run_exploratory_data_analysis(data)
 
+elif analysis_option == "머신러닝 모델":
+    run_ml_models_analysis(data)
+    
 elif analysis_option == "상관 및 회귀 분석":
     run_corr_regression_analysis(data)
     
-elif analysis_option == "머신러닝 모델":
-    run_ml_models_analysis(data)
 
         
 
