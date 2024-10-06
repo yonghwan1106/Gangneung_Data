@@ -51,9 +51,6 @@ elif analysis_option == "머신러닝 모델":
 elif analysis_option == "상관 및 회귀 분석":
     run_corr_regression_analysis(data)
 
-elif analysis_option == "농업 구조 상세 분석":
-    run_agriculture_analysis(data)
-
 # 푸터
 st.sidebar.markdown("---")
 st.sidebar.write("© 2024 강릉시 데이터 분석 공모전")
