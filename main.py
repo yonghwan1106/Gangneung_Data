@@ -7,6 +7,7 @@ from src.time_series_analysis import run_analysis as run_time_series_analysis
 from src.machine_learning_models import run_analysis as run_ml_models_analysis
 from src.correlation_regression_analysis import run_analysis as run_corr_regression_analysis
 from src.basic_analysis_2 import display_basic_analysis_2
+from src.advanced_analysis import display_advanced_analysis
 
 # 페이지 설정
 st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
@@ -29,7 +30,7 @@ data = load_data()
 st.sidebar.title("상세 분석")
 analysis_option = st.sidebar.radio(
     "분석 옵션을 선택하세요",
-    ("기본 분석", "기본 분석2", "시계열 분석", "머신러닝 모델", "상관 및 회귀 분석")
+    ("기본 분석", "기본 분석2", "시계열 분석", "머신러닝 모델", "상관 및 회귀 분석", "고급 분석")
 )
 
 # 메인 페이지 제목
@@ -93,6 +94,10 @@ elif analysis_option == "머신러닝 모델":
 
 elif analysis_option == "상관 및 회귀 분석":
     run_corr_regression_analysis(data)
+
+elif analysis_option == "고급 분석":
+    display_advanced_analysis(data)
+
 
 # 푸터
 st.sidebar.markdown("---")
