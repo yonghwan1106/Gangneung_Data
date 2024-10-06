@@ -1,4 +1,4 @@
-Year,temperature,precipitation,PaddyField,Upland,PaddyField+Upland,landPerFarm,Farmhouseholds,Farmpopulation,fullTime,partTime,fulltimeFarmRatio,partTimeFarmRatio,fullTime+partTime,RiceProduction,PotatoesProduction,PM10,PM2.5,O3
+Year,temperature,precipitation,PaddyField,Upland,PaddyField+Upland,landPerFarm,Farmhouseholds,Farmpopulation,fullTime,partTime,fullTimeFarmRatio,partTimeFarmRatio,fullTime+partTime,RiceProduction,PotatoesProduction,PM10,PM2.5,O3
 2016,13.1,"1,204.20","2,747","4,766","7,513",105.7,"7,106","17,192",3158,3948,44.4,55.6,7106,"12,802","29,342",47,27,0.03
 2017,13.9,"1,081.90","2,571","4,739","7,310",117.6,"6,217","14,407",2797,3421,45,55,6218,"10,814","27,763",44,25,0.034
 2018,12.7,"1,548.10","2,405","4,801","7,207",119.8,"6,012","13,464",2413,3599,40.1,59.9,6012,"10,688","27,808",36,19.5,0.034
