@@ -87,12 +87,13 @@ elif analysis_option == "기본 분석2":
 
 elif analysis_option == "탐색적 데이터 분석":
     run_exploratory_data_analysis(data)
+
+elif analysis_option == "상관 및 회귀 분석":
+    run_corr_regression_analysis(data)
     
 elif analysis_option == "머신러닝 모델":
     run_ml_models_analysis(data)
 
-elif analysis_option == "상관 및 회귀 분석":
-    run_corr_regression_analysis(data)
         
 
 # 푸터
