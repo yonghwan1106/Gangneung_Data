@@ -64,13 +64,13 @@ def display_basic_analysis_2(data):
     st.subheader("1.8 강릉시 농가 수 및 농가인구 변화 (2016-2022)")
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['Farmhouseholds'], name="농가 수"), secondary_y=False)
-    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['FarmPopulation'], name="농가인구"), secondary_y=True)
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['Farmpopulation'], name="농가인구"), secondary_y=True)
     fig.update_layout(title_text="강릉시 농가 수 및 농가인구 변화")
     fig.update_xaxes(title_text="연도")
     fig.update_yaxes(title_text="농가 수", secondary_y=False)
     fig.update_yaxes(title_text="농가인구", secondary_y=True)
     st.plotly_chart(fig)
-
+    
     # 1.9 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)
     st.subheader("1.9 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)")
     fig = go.Figure()
