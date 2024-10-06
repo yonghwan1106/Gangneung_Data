@@ -6,7 +6,6 @@ from src.data_loader import load_and_preprocess_data
 from src.time_series_analysis import run_analysis as run_time_series_analysis
 from src.machine_learning_models import run_analysis as run_ml_models_analysis
 from src.correlation_regression_analysis import run_analysis as run_corr_regression_analysis
-from src.agriculture_structure_analysis import run_analysis as run_agriculture_analysis
 from src.basic_analysis_2 import display_basic_analysis_2
 
 # 페이지 설정
@@ -30,7 +29,7 @@ data = load_data()
 st.sidebar.title("상세 분석")
 analysis_option = st.sidebar.radio(
     "분석 옵션을 선택하세요",
-    ("기본 분석", "기본 분석2", "시계열 분석", "머신러닝 모델", "상관 및 회귀 분석", "농업 구조 상세 분석")
+    ("기본 분석", "기본 분석2", "시계열 분석", "머신러닝 모델", "상관 및 회귀 분석")
 )
 
 # 메인 페이지 제목
