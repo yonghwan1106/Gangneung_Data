@@ -61,7 +61,7 @@ def display_basic_analysis_2(data):
     st.plotly_chart(fig)
 
     # 1.8 강릉시 농가 수 및 농가인구 변화 (2016-2022)
-    st.subheader("1.9 강릉시 농가 수 및 농가인구 변화 (2016-2022)")
+    st.subheader("1.8 강릉시 농가 수 및 농가인구 변화 (2016-2022)")
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['Farmhouseholds'], name="농가 수"), secondary_y=False)
     fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['FarmPopulation'], name="농가인구"), secondary_y=True)
@@ -72,7 +72,7 @@ def display_basic_analysis_2(data):
     st.plotly_chart(fig)
 
     # 1.9 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)
-    st.subheader("1.8 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)")
+    st.subheader("1.9 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)")
     fig = go.Figure()
     fig.add_trace(go.Bar(x=data['Year_Display'], y=data['FulltimeFarmRatio'], name='전업농'))
     fig.add_trace(go.Bar(x=data['Year_Display'], y=100-data['FulltimeFarmRatio'], name='겸업농'))
