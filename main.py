@@ -87,6 +87,9 @@ if analysis_option == "기본 분석":
 elif analysis_option == "기본 분석2":
     display_basic_analysis_2(data)
 
+elif analysis_option == "탐색적 데이터 분석":
+    run_exploratory_data_analysis(data)
+    
 elif analysis_option == "시계열 분석":
     run_time_series_analysis(data)
 
@@ -95,19 +98,6 @@ elif analysis_option == "머신러닝 모델":
 
 elif analysis_option == "상관 및 회귀 분석":
     run_corr_regression_analysis(data)
-
-elif analysis_option == "탐색적 데이터 분석":
-    exploratory_data_analysis()
-    if st.checkbox("시계열 분해 보기"):
-        time_series_decomposition()
-    if st.checkbox("상관관계 행렬 보기"):
-        correlation_matrix()
-    if st.checkbox("RandomForest 특성 중요도 보기"):
-        random_forest_importance()
-    if st.checkbox("SARIMA 예측 보기"):
-        sarima_forecast()
-    if st.checkbox("XGBoost 예측 보기"):
-        xgboost_predictions()
         
 
 # 푸터
