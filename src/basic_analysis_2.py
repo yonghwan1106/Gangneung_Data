@@ -1,0 +1,80 @@
+import streamlit as st
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+def display_basic_analysis_2(data):
+    st.header("기본 분석 2")
+
+    # 1.1 강릉시 연간 평균 기온 추이 (2016-2022)
+    st.subheader("1.1 강릉시 연간 평균 기온 추이 (2016-2022)")
+    fig = go.Figure(data=go.Scatter(x=data['Year_Display'], y=data['temperature'], mode='lines+markers'))
+    fig.update_layout(title="강릉시 연간 평균 기온 추이", xaxis_title="연도", yaxis_title="평균 기온 (°C)")
+    st.plotly_chart(fig)
+
+    # 1.2 강릉시 연간 강수량 변화 (2016-2022)
+    st.subheader("1.2 강릉시 연간 강수량 변화 (2016-2022)")
+    fig = go.Figure(data=go.Bar(x=data['Year_Display'], y=data['precipitation']))
+    fig.update_layout(title="강릉시 연간 강수량 변화", xaxis_title="연도", yaxis_title="강수량 (mm)")
+    st.plotly_chart(fig)
+
+    # 1.3 강릉시 대기질 변화 추이 (2016-2022)
+    st.subheader("1.3 강릉시 대기질 변화 추이 (2016-2022)")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['PM10'], mode='lines+markers', name='PM10'))
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['PM2.5'], mode='lines+markers', name='PM2.5'))
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['O3'], mode='lines+markers', name='O3'))
+    fig.update_layout(title="강릉시 대기질 변화 추이", xaxis_title="연도", yaxis_title="농도")
+    st.plotly_chart(fig)
+
+    # 1.4 강릉시 주요 작물 생산량 추이 (2016-2022)
+    st.subheader("1.4 강릉시 주요 작물 생산량 추이 (2016-2022)")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['RiceProduction'], mode='lines+markers', name='쌀'))
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['PotatoesProduction'], mode='lines+markers', name='감자'))
+    fig.update_layout(title="강릉시 주요 작물 생산량 추이", xaxis_title="연도", yaxis_title="생산량 (톤)")
+    st.plotly_chart(fig)
+
+    # 1.5 강릉시 경지면적 변화 (2016-2022)
+    st.subheader("1.5 강릉시 경지면적 변화 (2016-2022)")
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=data['Year_Display'], y=data['PaddyField'], name='논'))
+    fig.add_trace(go.Bar(x=data['Year_Display'], y=data['Upland'], name='밭'))
+    fig.update_layout(title="강릉시 경지면적 변화", xaxis_title="연도", yaxis_title="면적 (ha)", barmode='stack')
+    st.plotly_chart(fig)
+
+    # 1.6 강릉시 농가 수 및 경지면적 변화 (2016-2022)
+    st.subheader("1.6 강릉시 농가 수 및 경지면적 변화 (2016-2022)")
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['Farmhouseholds'], name="농가 수"), secondary_y=False)
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['PaddyField+Upland'], name="총 경지면적"), secondary_y=True)
+    fig.update_layout(title_text="강릉시 농가 수 및 경지면적 변화")
+    fig.update_xaxes(title_text="연도")
+    fig.update_yaxes(title_text="농가 수", secondary_y=False)
+    fig.update_yaxes(title_text="총 경지면적 (ha)", secondary_y=True)
+    st.plotly_chart(fig)
+
+    # 1.7 강릉시 농가당 경지면적 변화 (2016-2022)
+    st.subheader("1.7 강릉시 농가당 경지면적 변화 (2016-2022)")
+    data['LandPerFarm'] = data['PaddyField+Upland'] / data['Farmhouseholds']
+    fig = go.Figure(data=go.Scatter(x=data['Year_Display'], y=data['LandPerFarm'], mode='lines+markers'))
+    fig.update_layout(title="강릉시 농가당 경지면적 변화", xaxis_title="연도", yaxis_title="농가당 경지면적 (ha)")
+    st.plotly_chart(fig)
+
+    # 1.8 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)
+    st.subheader("1.8 강릉시 전업농 및 겸업농 비율 변화 (2016-2022)")
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=data['Year_Display'], y=data['FulltimeFarmRatio'], name='전업농'))
+    fig.add_trace(go.Bar(x=data['Year_Display'], y=100-data['FulltimeFarmRatio'], name='겸업농'))
+    fig.update_layout(title="강릉시 전업농 및 겸업농 비율 변화", xaxis_title="연도", yaxis_title="비율 (%)", barmode='stack')
+    st.plotly_chart(fig)
+
+    # 1.9 강릉시 농가 수 및 농가인구 변화 (2016-2022)
+    st.subheader("1.9 강릉시 농가 수 및 농가인구 변화 (2016-2022)")
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['Farmhouseholds'], name="농가 수"), secondary_y=False)
+    fig.add_trace(go.Scatter(x=data['Year_Display'], y=data['FarmPopulation'], name="농가인구"), secondary_y=True)
+    fig.update_layout(title_text="강릉시 농가 수 및 농가인구 변화")
+    fig.update_xaxes(title_text="연도")
+    fig.update_yaxes(title_text="농가 수", secondary_y=False)
+    fig.update_yaxes(title_text="농가인구", secondary_y=True)
+    st.plotly_chart(fig)
