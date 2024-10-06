@@ -1,56 +1,81 @@
+# correlation_regression_analysis.py
+
 import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+import pandas as pd
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
-def run_analysis(merged_data):
-    st.title("상관 및 회귀 분석")
-    perform_correlation_regression_analysis(merged_data)
+def load_data():
+    # 데이터 로드 (실제 경로에 맞게 수정 필요)
+    data = pd.read_csv('../data/total_data.csv')
+    data['Year'] = pd.to_datetime(data['Year'], format='%Y')
+    data.set_index('Year', inplace=True)
+    return data
 
-def perform_correlation_regression_analysis(merged_data):
-    # 상관관계 분석
-    st.subheader("상관관계 분석")
-    correlation_matrix = merged_data[['temperature', 'precipitation', 'Farmhouseholds', 'PaddyField+Upland', 'RiceProduction', 'PotatoesProduction']].corr()
+def rainfall_crop_relation(data):
+    st.subheader("3.1 강수량과 주요 작물 생산량의 관계")
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    
+    fig.add_trace(
+        go.Scatter(x=data.index, y=data['precipitation'], name="강수량 (mm)"),
+        secondary_y=False,
+    )
+    
+    fig.add_trace(
+        go.Scatter(x=data.index, y=data['RiceProduction'], name="미곡 생산량 (톤)"),
+        secondary_y=True,
+    )
+    
+    fig.add_trace(
+        go.Scatter(x=data.index, y=data['PotatoesProduction'], name="서류 생산량 (톤)"),
+        secondary_y=True,
+    )
+    
+    fig.update_layout(title_text="강수량과 주요 작물 생산량의 관계")
+    fig.update_xaxes(title_text="연도")
+    fig.update_yaxes(title_text="강수량 (mm)", secondary_y=False)
+    fig.update_yaxes(title_text="생산량 (톤)", secondary_y=True)
+    
+    st.plotly_chart(fig)
 
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', ax=ax)
-    ax.set_title('Correlation Matrix')
-    st.pyplot(fig)
+def farm_type_change(data):
+    st.subheader("3.2 농가유형의 변화: 전업농 및 겸업농 비율 변화")
+    
+    fig = go.Figure(data=[
+        go.Bar(name='전업농 비율 (%)', x=data.index, y=data['fullTimeFarmRatio']),
+        go.Bar(name='겸업농 비율 (%)', x=data.index, y=data['partTimeFarmRatio'])
+    ])
+    
+    fig.update_layout(barmode='stack', title_text='전업농 및 겸업농 비율 변화')
+    fig.update_xaxes(title_text="연도")
+    fig.update_yaxes(title_text="비율 (%)")
+    
+    st.plotly_chart(fig)
 
-    # 다중회귀분석 (미곡생산량)
-    st.subheader("다중회귀분석 (미곡생산량)")
-    X = merged_data[['precipitation', 'temperature', 'Farmhouseholds', 'PaddyField+Upland']]
-    y = merged_data['RiceProduction']
+def env_agri_relation(data):
+    st.subheader("3.3 환경 요인과 농업 생산의 관계")
+    
+    fig = go.Figure(data=go.Scatter(
+        x=data['PM10'],
+        y=data['RiceProduction'],
+        mode='markers',
+        marker=dict(size=10),
+        text=data.index.year  # 마커에 연도 표시
+    ))
+    
+    fig.update_layout(title='PM10과 미곡 생산량의 관계')
+    fig.update_xaxes(title_text="PM10 (μg/m³)")
+    fig.update_yaxes(title_text="미곡 생산량 (톤)")
+    
+    st.plotly_chart(fig)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+def run_analysis(data):
+    st.title("상관 분석 및 회귀 분석")
+    
+    rainfall_crop_relation(data)
+    farm_type_change(data)
+    env_agri_relation(data)
 
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-
-    y_pred = model.predict(X_test)
-    r2 = r2_score(y_test, y_pred)
-
-    st.write(f'Rice Production - R-squared: {r2:.4f}')
-    st.write('Coefficients:')
-    for feature, coef in zip(X.columns, model.coef_):
-        st.write(f'{feature}: {coef:.4f}')
-
-    # 단순회귀분석 (서류생산량)
-    st.subheader("단순회귀분석 (서류생산량)")
-    X = merged_data[['precipitation']]
-    y = merged_data['PotatoesProduction']
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-
-    y_pred = model.predict(X_test)
-    r2 = r2_score(y_test, y_pred)
-
-    st.write(f'Potato Production - R-squared: {r2:.4f}')
-    st.write(f'Coefficient: {model.coef_[0]:.4f}')
-
-    st.success("Correlation and regression analysis completed.")
+if __name__ == "__main__":
+    data = load_data()
+    run_analysis(data)
