@@ -8,7 +8,7 @@ from src.machine_learning_models import run_analysis as run_ml_models_analysis
 from src.correlation_regression_analysis import run_analysis as run_corr_regression_analysis
 from src.basic_analysis_2 import display_basic_analysis_2
 from src.advanced_analysis import display_advanced_analysis
-from src.exploratory_data_analysis import exploratory_data_analysis, time_series_decomposition, correlation_matrix, random_forest_importance, sarima_forecast, xgboost_predictions
+from src.exploratory_data_analysis import run_exploratory_data_analysis
 
 # 페이지 설정
 st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
