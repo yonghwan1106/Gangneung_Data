@@ -5,11 +5,7 @@ from plotly.subplots import make_subplots
 def display_advanced_analysis(data):
     st.header("고급 분석")
 
-    # 5.1 강릉시 기후-농업 연계 지수(CALI) 추이
-    st.subheader("5.1 강릉시 기후-농업 연계 지수(CALI) 추이")
-    fig = go.Figure(data=go.Scatter(x=data['Year_Display'], y=data['CALI'], mode='lines+markers'))
-    fig.update_layout(title="강릉시 기후-농업 연계 지수(CALI) 추이", xaxis_title="연도", yaxis_title="CALI")
-    st.plotly_chart(fig)
+
 
     # 5.2 강릉시 농업 회복력 평가 매트릭스(ARAM) 레이더 차트
     st.subheader("5.2 강릉시 농업 회복력 평가 매트릭스(ARAM) 레이더 차트")
@@ -107,4 +103,10 @@ def display_advanced_analysis(data):
     fig.update_layout(title="작물별 맞춤형 재배 가이드라인 구현 로드맵",
                       xaxis_title="개월",
                       yaxis_title="단계")
+    st.plotly_chart(fig)
+
+    # 5.1 강릉시 기후-농업 연계 지수(CALI) 추이
+    st.subheader("5.1 강릉시 기후-농업 연계 지수(CALI) 추이")
+    fig = go.Figure(data=go.Scatter(x=data['Year_Display'], y=data['CALI'], mode='lines+markers'))
+    fig.update_layout(title="강릉시 기후-농업 연계 지수(CALI) 추이", xaxis_title="연도", yaxis_title="CALI")
     st.plotly_chart(fig)
