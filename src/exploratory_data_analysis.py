@@ -1,5 +1,3 @@
-# 2.2 exploratory_data_analysis.py
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -11,35 +9,36 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from xgboost import XGBRegressor
 from sklearn.model_selection import train_test_split
 
-# 데이터 로드 및 전처리
-@st.cache_data
-def load_and_process_data():
-    data = pd.read_csv('total_data.csv')
-    data['Year'] = pd.to_datetime(data['Year'], format='%Y')
-    data.set_index('Year', inplace=True)
-    return data
+def run_exploratory_data_analysis(data):
+    st.header("2.2 탐색적 데이터 분석 (EDA)")
 
-data = load_and_process_data()
+    exploratory_data_analysis(data)
+    
+    if st.checkbox("시계열 분해 보기"):
+        time_series_decomposition(data)
+    if st.checkbox("상관관계 행렬 보기"):
+        correlation_matrix(data)
+    if st.checkbox("RandomForest 특성 중요도 보기"):
+        random_forest_importance(data)
+    if st.checkbox("SARIMA 예측 보기"):
+        sarima_forecast(data)
+    if st.checkbox("XGBoost 예측 보기"):
+        xgboost_predictions(data)
 
-def exploratory_data_analysis():
-    st.title("2.2 Exploratory Data Analysis (EDA)")
-
-    st.header("Data Overview")
+def exploratory_data_analysis(data):
+    st.subheader("데이터 개요")
     st.write(data.describe())
 
-    st.header("Data Visualization")
-    
-    # 시계열 데이터 시각화
-    st.subheader("Time Series of Key Variables")
+    st.subheader("데이터 시각화")
     fig = make_subplots(rows=3, cols=1, shared_xaxes=True)
-    fig.add_trace(go.Scatter(x=data.index, y=data['RiceProduction'], name='Rice Production'), row=1, col=1)
-    fig.add_trace(go.Scatter(x=data.index, y=data['temperature'], name='Temperature'), row=2, col=1)
-    fig.add_trace(go.Bar(x=data.index, y=data['precipitation'], name='Precipitation'), row=3, col=1)
-    fig.update_layout(height=600, title_text="Key Variables Over Time")
+    fig.add_trace(go.Scatter(x=data.index, y=data['RiceProduction'], name='쌀 생산량'), row=1, col=1)
+    fig.add_trace(go.Scatter(x=data.index, y=data['temperature'], name='평균 기온'), row=2, col=1)
+    fig.add_trace(go.Bar(x=data.index, y=data['precipitation'], name='강수량'), row=3, col=1)
+    fig.update_layout(height=600, title_text="주요 변수의 시계열 변화")
     st.plotly_chart(fig)
 
-def time_series_decomposition():
-    st.header("1. 미곡생산량 시계열분석")
+def time_series_decomposition(data):
+    st.subheader("미곡생산량 시계열분석")
     rice_production = data['RiceProduction']
     result = seasonal_decompose(rice_production, model='additive', period=1)
     
@@ -52,8 +51,8 @@ def time_series_decomposition():
     fig.update_layout(height=800, title_text='미곡생산량 시계열 분해')
     st.plotly_chart(fig)
 
-def correlation_matrix():
-    st.header("2. 주요 변수간 상관관계 행렬")
+def correlation_matrix(data):
+    st.subheader("주요 변수간 상관관계 행렬")
     corr_vars = ['temperature', 'precipitation', 'Farmhouseholds', 'PaddyField+Upland', 'RiceProduction', 'PotatoesProduction']
     corr_matrix = data[corr_vars].corr()
     
@@ -66,8 +65,8 @@ def correlation_matrix():
     fig.update_layout(title='주요 변수간 상관관계 행렬')
     st.plotly_chart(fig)
 
-def random_forest_importance():
-    st.header("3. RandomForest 특성 중요도")
+def random_forest_importance(data):
+    st.subheader("RandomForest 특성 중요도")
     X = data[['precipitation', 'Farmhouseholds', 'temperature', 'PaddyField+Upland']]
     y = data['RiceProduction']
     
@@ -81,8 +80,8 @@ def random_forest_importance():
     fig.update_layout(title='RandomForest 특성 중요도', xaxis_title='특성', yaxis_title='중요도')
     st.plotly_chart(fig)
 
-def sarima_forecast():
-    st.header("4. SARIMA 모델을 이용한 미곡 생산량 예측")
+def sarima_forecast(data):
+    st.subheader("SARIMA 모델을 이용한 미곡 생산량 예측")
     y = data['RiceProduction']
     
     model = SARIMAX(y, order=(1,1,1), seasonal_order=(1,1,1,1))
@@ -98,8 +97,8 @@ def sarima_forecast():
     fig.update_layout(title='SARIMA 모델을 이용한 미곡 생산량 예측', xaxis_title='연도', yaxis_title='생산량')
     st.plotly_chart(fig)
 
-def xgboost_predictions():
-    st.header("5. XGBoost 모델의 미곡 생산량 예측")
+def xgboost_predictions(data):
+    st.subheader("XGBoost 모델의 미곡 생산량 예측")
     X = data[['precipitation', 'Farmhouseholds', 'temperature', 'PaddyField+Upland']]
     y = data['RiceProduction']
     
@@ -115,14 +114,3 @@ def xgboost_predictions():
     
     fig.update_layout(title='XGBoost 모델의 미곡 생산량 예측', xaxis_title='실제 생산량', yaxis_title='예측 생산량')
     st.plotly_chart(fig)
-
-def main():
-    exploratory_data_analysis()
-    time_series_decomposition()
-    correlation_matrix()
-    random_forest_importance()
-    sarima_forecast()
-    xgboost_predictions()
-
-if __name__ == "__main__":
-    main()
