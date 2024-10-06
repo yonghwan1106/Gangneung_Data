@@ -3,11 +3,9 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from src.data_loader import load_and_preprocess_data
-from src.time_series_analysis import run_analysis as run_time_series_analysis
 from src.machine_learning_models import run_analysis as run_ml_models_analysis
 from src.correlation_regression_analysis import run_analysis as run_corr_regression_analysis
 from src.basic_analysis_2 import display_basic_analysis_2
-from src.advanced_analysis import display_advanced_analysis
 from src.exploratory_data_analysis import run_exploratory_data_analysis
 
 # 페이지 설정
@@ -31,7 +29,7 @@ data = load_data()
 st.sidebar.title("상세 분석")
 analysis_option = st.sidebar.radio(
     "분석 옵션을 선택하세요",
-    ("기본 분석", "탐색적 데이터 분석", "기본 분석2", "시계열 분석", "머신러닝 모델", "상관 및 회귀 분석")
+    ("기본 분석", "기본분석2", "탐색적 데이터 분석", "머신러닝 모델", "상관 및 회귀 분석")
 )
 
 # 메인 페이지 제목
@@ -90,9 +88,6 @@ elif analysis_option == "기본 분석2":
 elif analysis_option == "탐색적 데이터 분석":
     run_exploratory_data_analysis(data)
     
-elif analysis_option == "시계열 분석":
-    run_time_series_analysis(data)
-
 elif analysis_option == "머신러닝 모델":
     run_ml_models_analysis(data)
 
