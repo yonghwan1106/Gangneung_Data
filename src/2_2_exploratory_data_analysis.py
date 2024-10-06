@@ -1,4 +1,4 @@
-# 2.2_exploratory_data_analysis.py
+# 2_2_exploratory_data_analysis.py
 
 import streamlit as st
 import pandas as pd
