@@ -8,7 +8,7 @@ from src.machine_learning_models import run_analysis as run_ml_models_analysis
 from src.correlation_regression_analysis import run_analysis as run_corr_regression_analysis
 from src.basic_analysis_2 import display_basic_analysis_2
 from src.advanced_analysis import display_advanced_analysis
-from src.exploratory_data_analysis import exploratory_data_analysis, time_series_decomposition, correlation_matrix, random_forest_importance, sarima_forecast, xgboost_predictions
+from src.2.2_exploratory_data_analysis import exploratory_data_analysis, time_series_decomposition, correlation_matrix, random_forest_importance, sarima_forecast, xgboost_predictions
 
 # 페이지 설정
 st.set_page_config(page_title="강릉시 농업 데이터 분석", layout="wide")
@@ -97,7 +97,7 @@ elif analysis_option == "상관 및 회귀 분석":
     run_corr_regression_analysis(data)
 
 elif analysis_option == "탐색적 데이터 분석":
-    exploratory_data_analysis()
+    2.2_exploratory_data_analysis()
     if st.checkbox("시계열 분해 보기"):
         time_series_decomposition()
     if st.checkbox("상관관계 행렬 보기"):
